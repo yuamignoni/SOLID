@@ -1,0 +1,13 @@
+{
+    "openapi":"3.0.0",
+    "info": {
+        "title": "Documentação do desafio SOLID do curso Ignite",
+        "version": "1.0.0",
+        "contact": {
+            "email":"yuamignoni@gmail.com"
+        }
+    },
+    "paths": {
+        /
+    }
+}
