@@ -8,6 +8,99 @@
         }
     },
     "paths": {
-        /
+        "/users": {
+            "post": {
+                "tags": ["user"],
+            "summary": "Create a user",
+            "description": "Create a new user",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema":{
+                        "type":"object",
+                        "properties": {
+                            "name":{"type":"string"},
+                            "email":{"type":"string"}
+                        },
+                     "example": {
+                         "name":"Yua",
+                         "email":"yuamignoni@gmail.com"
+                     } 
+                    }
+                    }
+                }
+            },
+            "responses": {
+                "201":{"description":"User Created.",
+                        "content":{
+                            "application/json":{"schema":{
+                                "type":"object",
+                                "properties":{
+                                    "admin": {
+                                        "type": "boolean"
+                                      },
+                                      "id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "email": {
+                                        "type": "string"
+                                      },
+                                      "created_at": {
+                                        "type": "string"
+                                      },
+                                      "updated_at": {
+                                        "type": "string"
+                                      }
+                                }
+                            }}
+                        }
+                },
+                "400":{"description":"E-mail already in use.",
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "error":{
+                                    "type":"string"
+                                }
+                            },
+                            "example":{"error":"E-mail already in use."}
+                        }
+                    }
+                }}
+            }
+        }
+        },
+        "get": {
+            "tags": ["user"],
+            "summary": "List all users",
+            "description": "Get a list of all users",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema":{
+                        "type":"object",
+                        "properties": {
+                            "name":{"type":"string"},
+                            "email":{"type":"string"}
+                        },
+                     "example": {
+                         "name":"Yua",
+                         "email":"yuamignoni@gmail.com"
+                     } 
+                    }
+                    }
+                }
+            },
+            "responses": {
+                "201":{"description":"User Created."},
+                "400":{"description":"E-mail already in use."}
+            }
+        }
     }
 }
