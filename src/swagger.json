@@ -10,7 +10,7 @@
     "paths": {
         "/users": {
             "post": {
-                "tags": ["user"],
+                "tags": ["User"],
             "summary": "Create a user",
             "description": "Create a new user",
             "requestBody": {
@@ -74,33 +74,221 @@
                     }
                 }}
             }
-        }
         },
         "get": {
-            "tags": ["user"],
-            "summary": "List all users",
-            "description": "Get a list of all users",
-            "requestBody": {
-                "content": {
-                    "application/json": {
-                        "schema":{
-                        "type":"object",
-                        "properties": {
-                            "name":{"type":"string"},
-                            "email":{"type":"string"}
-                        },
-                     "example": {
-                         "name":"Yua",
-                         "email":"yuamignoni@gmail.com"
-                     } 
-                    }
-                    }
-                }
-            },
+            "tags": [
+              "User"
+            ],
+            "summary": "Get all users",
+            "description": "Must be an admin to return all users",
+            "parameters": [
+              {
+                "in": "header",
+                "name": "user_id",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "required": true
+              }
+            ],
             "responses": {
-                "201":{"description":"User Created."},
-                "400":{"description":"E-mail already in use."}
+              "200": {
+                "description": "success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "admin": {
+                            "type": "boolean"
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "User not authorized",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "example": {
+                        "error": "User is not an admin"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/users/{user_id}":{
+          "get": {
+            "tags": [
+              "User"
+            ],
+            "summary": "Get the especified user data.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses":{
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User does not exist"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Turns especified user into an admin",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User does not exist"
+                  }
+                }
+              }
             }
         }
-    }
+        }
+    }   
+  }
 }
+}
+
+ 
